@@ -29,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String token = getTokenFromRequest(request);
         if (token != null && jwtProvider.validateToken(token)) {
-            String userLogin = jwtProvider.getLoginFormToke(token);
+            String userLogin = jwtProvider.getLoginFormToken(token);
 //			System.out.println(userLogin);
             UserDetails customUserDetails = customUserDetailService.loadUserByUsername(userLogin);
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null,
