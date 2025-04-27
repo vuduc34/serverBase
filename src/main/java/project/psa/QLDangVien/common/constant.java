@@ -1,10 +1,38 @@
 package project.psa.QLDangVien.common;
 
 public class constant {
-    public static final class TYPE {
-        public static final String IN = "in";
-        public static final String OUT = "out";
+    public static final class CHOBO {
+        public static  final String HOATDONG = "hoatdong";
+        public static  final String GIAITHE = "giaithe";
+        public static  final String TAMDUNG = "tamdung";
     }
+
+    public static final class DANGVIEN {
+        public static  final String DUBI = "dubi";
+        public static  final String CHINHTHUC = "chinhthuc";
+        public static  final String KHAITRU = "khaitru";
+    }
+
+    public static final class THONGTIN {
+        public static  final String APPROVED = "approved";
+        public static  final String PENDING = "pending";
+        public static  final String SAVED = "saved";
+        public static  final String REJECT = "reject";
+    }
+    public static final class LOAIPHEDUYET {
+        public static  final String TINTUC = "tintuc";
+        public static  final String THONGTINDANGVIEN = "thongtin";
+        public static  final String HOSODANG = "hoso";
+    }
+
+    public static final class XEPLOAI {
+        public static  final String HOANTHANHXUATSACNHIEMVU = "xuatsac";
+        public static  final String HOANTHANHTOTNHIEMVU = "tot";
+        public static  final String HOANTHANHNHIEMVU = "hoanthanh";
+        public static  final String KHONGHOANTHANHNHIEMVU = "khonghoanthanh";
+    }
+
+
     public static final class STATUS {
         public static final Long ACTIVE = 1L;
         public static final Long DELETED = -1L;

@@ -3,9 +3,9 @@ package project.psa.QLDangVien.controller.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import project.psa.QLDangVien.common.constant;
 import project.psa.QLDangVien.model.ResponMessage;
+import project.psa.QLDangVien.model.changePw;
 import project.psa.QLDangVien.model.signUpData;
 import project.psa.QLDangVien.service.auth.accountService;
 
@@ -20,6 +20,12 @@ public class accountController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponMessage createAccount(@RequestBody signUpData signUpData, @RequestParam String roleName) throws Exception {
         return accountService.createAccount(signUpData,roleName);
+    }
+
+    @PostMapping("/account/changePw")
+    @ResponseBody
+    public ResponMessage changePw(@RequestBody changePw changePw) {
+        return accountService.changePassword(changePw.getUsername(), changePw.getCurrentPassword(), changePw.getNewPassword());
     }
 
     @GetMapping("/account/changeRole")

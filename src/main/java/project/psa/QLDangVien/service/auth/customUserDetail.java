@@ -22,7 +22,6 @@ public class customUserDetail implements UserDetails {
             if(role!=null) {
                 roleAuthorities.add(new SimpleGrantedAuthority(role.getName()));
             }
-
             customUserDetail customUserDetails = new customUserDetail();
             customUserDetails.setUsername(account.getUsername());
             customUserDetails.setPassword(account.getPassword());

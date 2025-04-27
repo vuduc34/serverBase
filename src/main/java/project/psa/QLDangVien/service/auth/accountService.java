@@ -38,7 +38,7 @@ public class accountService {
     public String forgotPassword(String email) throws Exception {
         account account = accountRepository.findUserByEmail(email);
         if (account == null)
-            return "not found in system";
+            return "not found email in system";
         String token = generateToken();
         while (accountRepository.existsByTokenForgotPassword(token)) {
             token = generateToken();
@@ -83,7 +83,7 @@ public class accountService {
     public String generateToken() {
         Random random = new Random();
         StringBuilder token = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 6; i++) {
             token.append(random.nextInt(10));
         }
         return token.toString();
@@ -95,6 +95,24 @@ public class accountService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+    public ResponMessage changePassword(String username,String currentPw,String newPw) {
+        ResponMessage responMessage = new ResponMessage();
+        account account = accountRepository.findUserByUsername(username);
+        if(account == null) {
+            responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+            responMessage.setMessage(constant.MESSAGE.NOT_FOUND_USER);
+        } else if(!passwordEncoder.matches(currentPw, account.getPassword()))  {
+            responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+            responMessage.setMessage(constant.MESSAGE.PASSWORD_INCORRECT);
+        } else {
+            account.setPassword(passwordEncoder.encode(newPw));
+            accountRepository.save(account);
+            responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+            responMessage.setMessage(constant.MESSAGE.SUCCESS);
+        }
+        return responMessage;
     }
 
     public ResponMessage signIn(SignInData data) {
