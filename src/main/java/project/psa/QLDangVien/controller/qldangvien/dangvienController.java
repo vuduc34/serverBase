@@ -31,7 +31,7 @@ public class dangvienController {
         return dangvienService.findAll();
     }
 
-    @GetMapping("/dangvienDaPheDuyet")
+    @GetMapping("/findApproved")
     @ResponseBody
     public ResponMessage dangvienDaPheDuyet()  {
         return dangvienService.findDangvienDaPheDuyet();

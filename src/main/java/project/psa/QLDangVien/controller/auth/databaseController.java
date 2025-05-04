@@ -2,6 +2,7 @@ package project.psa.QLDangVien.controller.auth;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +10,7 @@ import project.psa.QLDangVien.common.constant;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import project.psa.QLDangVien.model.ResponMessage;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -33,6 +35,8 @@ public class databaseController {
 
 
     @PostMapping("/backup")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> backupDatabaseJdbc() {
         try (Connection conn = DriverManager.getConnection(jdbcUrl, user, password)) {
             File backupFile = File.createTempFile("backup-data-", ".sql");
@@ -56,7 +60,7 @@ public class databaseController {
                     try (Statement testStmt = conn.createStatement()) {
                         testStmt.execute("SELECT 1 FROM `" + tableName + "` LIMIT 1");
                     } catch (SQLException e) {
-                        System.out.println("⚠️ Bỏ qua bảng không truy cập được: " + tableName);
+                        System.out.println("Skip table name: " + tableName);
                         continue;
                     }
 
@@ -114,7 +118,10 @@ public class databaseController {
 
 
     @PostMapping(value = "/restore",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> restoreDatabase(@RequestParam("file") MultipartFile file) {
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponMessage restoreDatabase(@RequestParam("file") MultipartFile file) {
+        ResponMessage responMessage = new ResponMessage();
         Connection connection = null;
         try {
             // B1. Lưu file upload vào hệ thống tạm thời
@@ -148,8 +155,10 @@ public class databaseController {
             // B6. Commit các thay đổi vào cơ sở dữ liệu
             connection.commit();
             uploadedFile.delete();  // Xóa file tạm thời
+            responMessage.setMessage(constant.MESSAGE.SUCCESS);
+            responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
 
-            return ResponseEntity.ok("✅ Khôi phục dữ liệu thành công!");
+            return responMessage;
         } catch (Exception e) {
             if (connection != null) {
                 try {
@@ -158,7 +167,10 @@ public class databaseController {
                     rollbackEx.printStackTrace();
                 }
             }
-            return ResponseEntity.status(500).body("❌ Lỗi khôi phục: " + e.getMessage());
+            responMessage.setMessage(e.getMessage());
+            responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+
+            return responMessage;
         } finally {
             try {
                 if (connection != null && !connection.isClosed()) {

@@ -1,5 +1,6 @@
 package project.psa.QLDangVien.entity.qldangvien;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,9 @@ public class TheDang {
     private Long id;
     private String mathe;
     private String noicapthe;
-    private LocalDate ngaycap;
-    @OneToOne(cascade = CascadeType.ALL)
+    private String ngaycap;
+    @OneToOne
     @JoinColumn(name = "dangvien_id", referencedColumnName = "id")
+    @JsonIgnore
     private DangVien dangvien;
 }

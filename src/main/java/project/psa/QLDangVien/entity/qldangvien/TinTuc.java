@@ -1,6 +1,7 @@
 package project.psa.QLDangVien.entity.qldangvien;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class TinTuc {
     private String trangthai;
     private String nguoipheduyet;
 
-    @OneToMany(mappedBy = "tintuc")
+    @OneToMany(mappedBy = "tintuc",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<NoiDungTin> noidungtins;
 }

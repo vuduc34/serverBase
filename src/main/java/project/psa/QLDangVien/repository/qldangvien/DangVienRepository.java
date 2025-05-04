@@ -10,7 +10,9 @@ import java.util.List;
 
 @Repository
 public interface DangVienRepository extends JpaRepository<DangVien, Long> {
-    DangVien findDangVienById(Long id);
+    @Query( value = "SELECT  * FROM dangvien where id = :id", nativeQuery = true)
+    DangVien findDangVienById(@Param("id") Long id);
+
     @Query( value = "SELECT  * FROM dangvien where trangthaithongtin = 'approved'", nativeQuery = true)
     List<DangVien> findDangViensApproved();
     boolean existsById(Long id);
@@ -20,7 +22,7 @@ public interface DangVienRepository extends JpaRepository<DangVien, Long> {
 
     @Query( value = "select d.id,d.hoten,c.tenchibo,t.mathe from dangvien as d join chibo as c\n" +
             "on d.chibo_id = c.id join thedang t on d.id = t.dangvien_id\n" +
-            "where d.hoten like %:text% or c.tenchibo like %:text% or t.mathe " +
-            "like %:text% or d.chucvuchibo like %:text%" , nativeQuery = true)
+            "where d.trangthaithongtin = 'approved' and ( d.hoten like %:text% or c.tenchibo like %:text% or t.mathe " +
+            "like %:text% or d.chucvuchibo like %:text% )" , nativeQuery = true)
     List<Object[]> findDangVienByText(@Param("text") String text);
 }

@@ -1,6 +1,7 @@
 package project.psa.QLDangVien.entity.qldangvien;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,6 @@ public class HosoDang {
 
     @ManyToOne
     @JoinColumn(name = "dangvien_id")
+    @JsonIgnore
     private DangVien dangvien;
 }

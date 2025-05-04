@@ -1,35 +1,52 @@
 package project.psa.QLDangVien.common;
 
 public class constant {
-    public static final class CHOBO {
+    //danh sách trạng thái của chi bộ
+    public static final class CHIBO {
         public static  final String HOATDONG = "hoatdong";
         public static  final String GIAITHE = "giaithe";
         public static  final String TAMDUNG = "tamdung";
     }
-
+    //danh sách trạng thái của đảng viên
     public static final class DANGVIEN {
         public static  final String DUBI = "dubi";
         public static  final String CHINHTHUC = "chinhthuc";
         public static  final String KHAITRU = "khaitru";
     }
 
+    //danh sách trạng thái của thông tin: đảng viên, hồ sơ đảng, tin tức
     public static final class THONGTIN {
         public static  final String APPROVED = "approved";
         public static  final String PENDING = "pending";
         public static  final String SAVED = "saved";
         public static  final String REJECT = "reject";
     }
+
+    //danh sách các loại phê duyệt
     public static final class LOAIPHEDUYET {
         public static  final String TINTUC = "tintuc";
         public static  final String THONGTINDANGVIEN = "thongtin";
         public static  final String HOSODANG = "hoso";
     }
 
+    //danh sách trạng thái của xếp loại chi bộ
     public static final class XEPLOAI {
         public static  final String HOANTHANHXUATSACNHIEMVU = "xuatsac";
         public static  final String HOANTHANHTOTNHIEMVU = "tot";
         public static  final String HOANTHANHNHIEMVU = "hoanthanh";
         public static  final String KHONGHOANTHANHNHIEMVU = "khonghoanthanh";
+    }
+
+    //danh sách trạng thái của hồ sơ đảng (3 tập: tập 1, tập 2, tập 3)
+    public static final class LOAIHOSO {
+        public static  final String TAP1 = "tap1";
+        public static  final String TAP2 = "tap2";
+        public static  final String TAP3 = "tap3";
+    }
+    //danh sách trạng thái của đảng phí
+    public static final class DANGPHI {
+        public static  final String CHUAHOANTHANH = "chuahoanthanh";
+        public static  final String HOANTHANH = "hoanthanh";
     }
 
 

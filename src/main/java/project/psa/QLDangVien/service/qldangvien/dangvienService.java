@@ -73,6 +73,9 @@ public class dangvienService {
             if(dangVien == null) {
                 responMessage.setResultCode(constant.RESULT_CODE.ERROR);
                 responMessage.setMessage("Không tìm thấy đảng viên");
+            } else if(dangVien.getTrangthaithongtin().equals(constant.THONGTIN.PENDING)) {
+                responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+                responMessage.setMessage("Không thể cập nhật! Thông tin đang chờ phê duyệt");
             } else {
                 dangVien.setChucdanh(model.getChucdanh());
                 dangVien.setChucvuchibo(model.getChucvuchibo());
@@ -96,7 +99,10 @@ public class dangvienService {
                 dangVien.setTrinhdongoaingu(model.getTrinhdongoaingu());
                 dangVien.setTrinhdovanhoa(model.getTrinhdovanhoa());
                 dangVien.setTrangthaithongtin(constant.THONGTIN.SAVED);
+                dangVien.setThoigianpheduyet(null);
+                dangVien.setNguoipheduyet(null);
                 dangVien = dangVienRepository.save(dangVien);
+
                 responMessage.setData(dangVien);
                 responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
                 responMessage.setMessage(constant.MESSAGE.SUCCESS);

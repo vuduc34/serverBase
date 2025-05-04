@@ -58,7 +58,7 @@ public class DangVien {
     @JsonIgnore
     private List<TrangThaiDangPhi> trangthaidangphis;
 
-    @OneToOne(mappedBy = "dangvien")
+    @OneToOne(mappedBy = "dangvien",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private TheDang thedang;
 
     @ManyToOne
