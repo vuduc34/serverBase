@@ -20,4 +20,6 @@ public class trangthaidangphiDTO {
     private String nguoixacnhan;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss.SSSSSS")
     private LocalDateTime thoigianxacnhan;
+    private String tenkydangphi;
+    private String sotien;
 }

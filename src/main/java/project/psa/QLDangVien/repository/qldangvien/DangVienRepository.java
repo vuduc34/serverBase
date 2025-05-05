@@ -20,9 +20,24 @@ public interface DangVienRepository extends JpaRepository<DangVien, Long> {
     @Query( value = "SELECT  * FROM dangvien where chibo_id = :chibo_id", nativeQuery = true)
     List<DangVien> findDangVienByChiBoId(@Param("chibo_id") Long chibo_id);
 
-    @Query( value = "select d.id,d.hoten,c.tenchibo,t.mathe from dangvien as d join chibo as c\n" +
-            "on d.chibo_id = c.id join thedang t on d.id = t.dangvien_id\n" +
-            "where d.trangthaithongtin = 'approved' and ( d.hoten like %:text% or c.tenchibo like %:text% or t.mathe " +
-            "like %:text% or d.chucvuchibo like %:text% )" , nativeQuery = true)
-    List<Object[]> findDangVienByText(@Param("text") String text);
+    @Query( value = "select d.* from dangvien as d join chibo as c\n" +
+            "on d.chibo_id = c.id left join thedang t on d.id = t.dangvien_id\n" +
+            "where  d.hoten like %:text% or c.tenchibo like %:text% or t.mathe " +
+            "like %:text% or d.chucvuchibo like %:text% " , nativeQuery = true)
+    List<DangVien> findDangVienByText(@Param("text") String text);
+
+//    Thống kê
+    @Query("SELECT COUNT(d) FROM DangVien d")
+    Long countDangVien();
+
+    @Query("SELECT COUNT(d) FROM DangVien d WHERE d.gioitinh = 'Nam'")
+    Long countNam();
+
+    @Query("SELECT COUNT(d) FROM DangVien d WHERE d.gioitinh = 'Nữ'")
+    Long countNu();
+
+    @Query("SELECT c.tenchibo, COUNT(d.id) FROM DangVien d JOIN d.chibo c GROUP BY c.tenchibo")
+    List<Object[]> countDangVienTheoChiBo();
+
+
 }

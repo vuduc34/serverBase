@@ -163,16 +163,17 @@ public class dangvienService {
     public ResponMessage findByKeyword(String text) {
         ResponMessage responMessage = new ResponMessage();
         try {
-            List<Object[]> results = dangVienRepository.findDangVienByText(text);
-            List<dangvienDTO> dtos = results.stream()
-                    .map(row -> new dangvienDTO(
-                            ((Number) row[0]).longValue(),  // id
-                            (String) row[1],                // hoten
-                            (String) row[2],                // tenchibo
-                            (String) row[3]                 // mathe
-                    ))
-                    .collect(Collectors.toList());
-            responMessage.setData(dtos);
+//            List<Object[]> results = dangVienRepository.findDangVienByText(text);
+//            List<dangvienDTO> dtos = results.stream()
+//                    .map(row -> new dangvienDTO(
+//                            ((Number) row[0]).longValue(),  // id
+//                            (String) row[1],                // hoten
+//                            (String) row[2],                // tenchibo
+//                            (String) row[3]                 // mathe
+//                    ))
+//                    .collect(Collectors.toList());
+            List<DangVien> result = dangVienRepository.findDangVienByText(text);
+            responMessage.setData(result);
             responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
             responMessage.setMessage(constant.MESSAGE.SUCCESS);
         } catch (Exception e) {

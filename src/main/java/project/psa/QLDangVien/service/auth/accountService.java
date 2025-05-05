@@ -8,10 +8,7 @@ import project.psa.QLDangVien.common.constant;
 import project.psa.QLDangVien.config.jwt.jwtProvider;
 import project.psa.QLDangVien.entity.auth.account;
 import project.psa.QLDangVien.entity.auth.role;
-import project.psa.QLDangVien.model.ResponMessage;
-import project.psa.QLDangVien.model.SignInData;
-import project.psa.QLDangVien.model.loginResponse;
-import project.psa.QLDangVien.model.signUpData;
+import project.psa.QLDangVien.model.*;
 import project.psa.QLDangVien.repository.auth.accountRepository;
 import project.psa.QLDangVien.repository.auth.roleRepository;
 
@@ -292,8 +289,23 @@ public class accountService {
     public ResponMessage findAll() {
         ResponMessage responMessage = new ResponMessage();
         try {
-
-            responMessage.setData(accountRepository.findAllAccount());
+            List<accountDTO> list = new ArrayList();
+            accountRepository.findAllAccount().forEach( account -> {
+                accountDTO accountDTO = new accountDTO();
+                accountDTO.setId(account.getId());
+                accountDTO.setEmail(account.getEmail());
+                accountDTO.setCode(account.getCode());
+                accountDTO.setFullname(account.getFullname());
+                accountDTO.setPhoneNumber(account.getPhoneNumber());
+                accountDTO.setUsername(account.getUsername());
+                accountDTO.setStatus(account.getStatus());
+                accountDTO.setTimeCreatioToken(account.getTimeCreatioToken());
+                accountDTO.setTokenForgotPassword(account.getTokenForgotPassword());
+                accountDTO.setRoleId(account.getRole().getId());
+                accountDTO.setRoleName(account.getRole().getName());
+                list.add(accountDTO);
+            });
+            responMessage.setData(list);
             responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
             responMessage.setMessage(constant.MESSAGE.SUCCESS);
         } catch (Exception e) {

@@ -17,6 +17,7 @@ public class KyDangPhi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, nullable = false)
     private String ten;
     private Long sotien;
     private String nguoitao;

@@ -19,4 +19,10 @@ public interface TinTucRepository extends JpaRepository<TinTuc, Long> {
 
     @Query( value = "SELECT  * FROM tintuc where trangthai = 'approved' order by thoigianpheduyet desc ", nativeQuery = true)
     List<TinTuc> findApproved();
+
+    @Query("SELECT COUNT(t) FROM TinTuc t")
+    Long countAll();
+
+    @Query("SELECT COUNT(t) FROM TinTuc t WHERE t.trangthai = 'approved'")
+    Long countDaDuyet();
 }

@@ -34,13 +34,14 @@ public class jwtProvider {
 
     public boolean validateToken(String token) {
         try {
-//            if(accountRepository.findUserByUsername(getLoginFormToke(token)).getStatus() == constant.STATUS.DE_ACTIVE) {
-//                return false;
-//            }
             byte[] keyBytes = Base64.getDecoder().decode(jwtSecret);
             SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
+            Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            if(!(accountRepository.findUserByUsername(claims.getSubject()).getStatus() == constant.STATUS.ACTIVE)) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (Exception e) {
             return false;
         }

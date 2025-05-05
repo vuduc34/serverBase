@@ -18,11 +18,18 @@ public interface TrangThaiDangPhiRepository extends JpaRepository<TrangThaiDangP
     @Query( value = "SELECT  * FROM trangthaidangphi where kydangphi_id = :kydangphi_id and dangvien_id = :dangvien_id", nativeQuery = true)
     TrangThaiDangPhi findByKydangphiIdAndDangvienId(@Param("kydangphi_id") Long kydangphi_id,@Param("dangvien_id") Long dangvien_id);
 
-    @Query(value = "SELECT t.dangvien_id, t.kydangphi_id, d.hoten, t.trangthai, t.nguoixacnhan, t.thoigianxacnhan " +
+    @Query(value = "SELECT t.dangvien_id, t.kydangphi_id, d.hoten, t.trangthai, t.nguoixacnhan, t.thoigianxacnhan, k.ten, k.sotien " +
             "FROM trangthaidangphi t " +
             "JOIN dangvien d ON d.id = t.dangvien_id " +
-            "WHERE t.kydangphi_id = :kydangphi_id",
+            "JOIN kydangphi k ON t.kydangphi_id = k.id WHERE t.kydangphi_id = :kydangphi_id",
             nativeQuery = true)
     List<Object[]> findTrangThaiDangPhiRawByKydangphiId(@Param("kydangphi_id") Long kydangphiId);
+
+    @Query(value = "SELECT t.dangvien_id, t.kydangphi_id, d.hoten, t.trangthai, t.nguoixacnhan, t.thoigianxacnhan, k.ten, k.sotien  " +
+            "FROM trangthaidangphi t " +
+            "JOIN dangvien d ON d.id = t.dangvien_id " +
+            "JOIN kydangphi k ON t.kydangphi_id = k.id WHERE d.id = :dangvien_id",
+            nativeQuery = true)
+    List<Object[]> findTrangThaiDangPhiRawByDangvienId(@Param("dangvien_id") Long dangvien_id);
 
 }

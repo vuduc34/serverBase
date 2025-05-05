@@ -29,4 +29,10 @@ public interface accountRepository extends JpaRepository<account, Long> {
     List<account> findAllAccount();
     @Query( value = "SELECT  * FROM account where id = :id ", nativeQuery = true)
     account findAccountById(@Param("id") Long id);
+
+    @Query("SELECT COUNT(t) FROM account t WHERE t.status = 1  or t.status = 0")
+    Long countAll();
+
+    @Query("SELECT r.name, COUNT(a.id) FROM account a JOIN a.role r WHERE a.status = 1  or a.status = 0 GROUP BY r.name")
+    List<Object[]> countTaiKhoanTheoVaiTro();
 }

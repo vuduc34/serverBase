@@ -24,4 +24,10 @@ public class trangthaidangphiController {
     public ResponMessage findByKydangphiId(@RequestParam Long kydangphiId) {
         return trangthaidangphiService.findByKydangphiId(kydangphiId);
     }
+
+    @GetMapping("/findByDangvienId")
+    @ResponseBody
+    public ResponMessage findByDangvienId(@RequestParam Long dangvienId) {
+        return trangthaidangphiService.findByDangvienId(dangvienId);
+    }
 }

@@ -13,4 +13,7 @@ public interface ChiBoRepository extends JpaRepository<ChiBo, Long> {
     ChiBo findChiBoById(Long id);
     @Query( value = "SELECT  * FROM chibo where trangthai = 'hoatdong'", nativeQuery = true)
     List<ChiBo> findChiBoHoatDong();
+
+    @Query("SELECT COUNT(c) FROM ChiBo c")
+    Long countChiBo();
 }
