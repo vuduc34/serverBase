@@ -20,7 +20,9 @@ public class TinTuc {
     private Long id;
 
     private String tieude;
-    private String mota;
+    @Lob
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String noidungtin;
     private String nguoitao;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss.SSSSSS")
     private LocalDateTime thoigiantao;
@@ -30,7 +32,7 @@ public class TinTuc {
     private String trangthai;
     private String nguoipheduyet;
 
-    @OneToMany(mappedBy = "tintuc",cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<NoiDungTin> noidungtins;
+//    @OneToMany(mappedBy = "tintuc",cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+//    private List<NoiDungTin> noidungtins;
 }

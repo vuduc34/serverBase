@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 import project.psa.QLDangVien.common.constant;
 import project.psa.QLDangVien.entity.qldangvien.DangVien;
 import project.psa.QLDangVien.entity.qldangvien.KyDangPhi;
-import project.psa.QLDangVien.entity.qldangvien.TinTuc;
 import project.psa.QLDangVien.entity.qldangvien.TrangThaiDangPhi;
 import project.psa.QLDangVien.model.ResponMessage;
-import project.psa.QLDangVien.model.qldangvien.tintucModel;
 import project.psa.QLDangVien.repository.qldangvien.DangVienRepository;
 import project.psa.QLDangVien.repository.qldangvien.KyDangPhiRepository;
 import project.psa.QLDangVien.repository.qldangvien.TrangThaiDangPhiRepository;
@@ -31,28 +29,34 @@ public class kydangphiService {
     public ResponMessage create(Long sotien,String tenKyDangPhi) {
         ResponMessage responMessage = new ResponMessage();
         try {
-            KyDangPhi kyDangPhi = new KyDangPhi();
-            kyDangPhi.setTen(tenKyDangPhi);
-            kyDangPhi.setSotien(sotien);
-            kyDangPhi.setNguoitao(getCurrentUsername());
-            kyDangPhi.setThoigiantao(LocalDateTime.now());
-            kyDangPhi = kyDangPhiRepository.save(kyDangPhi);
-            List<DangVien> dangVienList =dangVienRepository.findAll();
-            for(int i = 0; i<dangVienList.size();i++) {
-                DangVien dangVien = dangVienList.get(i);
-                if(dangVien.getTrangthaidangvien().equals(constant.DANGVIEN.CHINHTHUC)
-                        || dangVien.getTrangthaidangvien().equals(constant.DANGVIEN.DUBI))  {
-                    TrangThaiDangPhi trangThaiDangPhi = new TrangThaiDangPhi();
-                    trangThaiDangPhi.setKydangphi(kyDangPhi);
-                    trangThaiDangPhi.setDangvien(dangVien);
-                    trangThaiDangPhi.setTrangthai(constant.DANGPHI.CHUAHOANTHANH);
-                    trangThaiDangPhiRepository.save(trangThaiDangPhi);
-                }
+            if(!kyDangPhiRepository.existsByTen(tenKyDangPhi)) {
+                KyDangPhi kyDangPhi = new KyDangPhi();
+                kyDangPhi.setTen(tenKyDangPhi);
+                kyDangPhi.setSotien(sotien);
+                kyDangPhi.setNguoitao(getCurrentUsername());
+                kyDangPhi.setThoigiantao(LocalDateTime.now());
+                kyDangPhi = kyDangPhiRepository.save(kyDangPhi);
+                List<DangVien> dangVienList =dangVienRepository.findAll();
+                for(int i = 0; i<dangVienList.size();i++) {
+                    DangVien dangVien = dangVienList.get(i);
+                    if(dangVien.getTrangthaidangvien().equals(constant.DANGVIEN.CHINHTHUC)
+                            || dangVien.getTrangthaidangvien().equals(constant.DANGVIEN.DUBI))  {
+                        TrangThaiDangPhi trangThaiDangPhi = new TrangThaiDangPhi();
+                        trangThaiDangPhi.setKydangphi(kyDangPhi);
+                        trangThaiDangPhi.setDangvien(dangVien);
+                        trangThaiDangPhi.setTrangthai(constant.DANGPHI.CHUAHOANTHANH);
+                        trangThaiDangPhiRepository.save(trangThaiDangPhi);
+                    }
 
+                }
+                responMessage.setData(kyDangPhi);
+                responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+                responMessage.setMessage(constant.MESSAGE.SUCCESS);
+            } else {
+                responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+                responMessage.setMessage("Tên kỳ đảng phí đã tồn tại!!");
             }
-            responMessage.setData(kyDangPhi);
-            responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
-            responMessage.setMessage(constant.MESSAGE.SUCCESS);
+
         } catch (Exception e) {
             responMessage.setResultCode(constant.RESULT_CODE.ERROR);
             responMessage.setMessage(e.getMessage());

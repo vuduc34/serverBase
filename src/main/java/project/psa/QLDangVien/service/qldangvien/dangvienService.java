@@ -160,6 +160,20 @@ public class dangvienService {
         return responMessage;
     }
 
+    public ResponMessage findByDangvienId(Long dangvienId) {
+        ResponMessage responMessage = new ResponMessage();
+        try {
+            responMessage.setData(dangVienRepository.findDangVienById(dangvienId));
+            responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+            responMessage.setMessage(constant.MESSAGE.SUCCESS);
+        } catch (Exception e) {
+            responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+            responMessage.setMessage(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        return responMessage;
+    }
+
     public ResponMessage findByKeyword(String text) {
         ResponMessage responMessage = new ResponMessage();
         try {

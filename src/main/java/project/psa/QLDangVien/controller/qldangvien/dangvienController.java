@@ -43,6 +43,12 @@ public class dangvienController {
         return dangvienService.findByChiboId(chiboId);
     }
 
+    @GetMapping("/findByDangvienId")
+    @ResponseBody
+    public ResponMessage findByDangvienId(@RequestParam Long dangvienId)  {
+        return dangvienService.findByDangvienId(dangvienId);
+    }
+
     @Operation(summary = "Tìm kiếm đảng viên bằng từ khóa",
             description = "Tìm kiếm thông qua nội dung các trường như họ tên, mã thẻ đảng," +
                     "tên chi bộ, chức vụ chi bộ,...")

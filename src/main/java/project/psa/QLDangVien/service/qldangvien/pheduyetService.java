@@ -9,6 +9,7 @@ import project.psa.QLDangVien.entity.qldangvien.HosoDang;
 import project.psa.QLDangVien.entity.qldangvien.PheDuyet;
 import project.psa.QLDangVien.entity.qldangvien.TinTuc;
 import project.psa.QLDangVien.model.ResponMessage;
+import project.psa.QLDangVien.model.qldangvien.pheduyetDTO;
 import project.psa.QLDangVien.model.qldangvien.pheduyetModel;
 import project.psa.QLDangVien.repository.auth.accountRepository;
 import project.psa.QLDangVien.repository.qldangvien.DangVienRepository;
@@ -17,6 +18,7 @@ import project.psa.QLDangVien.repository.qldangvien.PheDuyetRepository;
 import project.psa.QLDangVien.repository.qldangvien.TinTucRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -281,7 +283,43 @@ public class pheduyetService {
     public ResponMessage findPheduyetByUsername(String username) {
         ResponMessage responMessage = new ResponMessage();
         try {
-            responMessage.setData(pheDuyetRepository.findByUsername(username));
+            List<PheDuyet> list = pheDuyetRepository.findByUsername(username);
+            List<pheduyetDTO> pheduyetDTOList = new ArrayList();
+            for(int i = 0; i<list.size(); i++) {
+                PheDuyet pheDuyet = list.get(i);
+                pheduyetDTO dto = new pheduyetDTO();
+                dto.setGhichu(pheDuyet.getGhichu());
+                dto.setLoaipheduyet(pheDuyet.getLoaipheduyet());
+                dto.setId(pheDuyet.getId());
+                dto.setNguoipheduyet(pheDuyet.getNguoipheduyet());
+                dto.setThoigianguipheduyet(pheDuyet.getThoigianguipheduyet());
+                dto.setTrangthai(pheDuyet.getTrangthai());
+                if(pheDuyet.getLoaipheduyet().equals(constant.LOAIPHEDUYET.THONGTINDANGVIEN)) {
+                    DangVien dangVien = dangVienRepository.findDangVienById(pheDuyet.getDangvienId());
+                    if(dangVien!=null) {
+                        dto.setTendangvien(dangVien.getHoten());
+                    }
+                } //Phê duyệt tin tức
+                else if(pheDuyet.getLoaipheduyet().equals(constant.LOAIPHEDUYET.TINTUC)) {
+                    TinTuc tinTuc = tinTucRepository.findTinTucById(pheDuyet.getTintucId());
+                    if(tinTuc!=null) {
+                        dto.setTieude(tinTuc.getTieude());
+                    }
+                } // Phê duyệt hồ sơ đảng
+                else if(pheDuyet.getLoaipheduyet().equals(constant.LOAIPHEDUYET.HOSODANG)) {
+                    List<Long>  listId = pheDuyet.getListHosoId();
+                    List<String> tenhoso = new ArrayList();
+                    for(int j = 0; j<listId.size(); j++) {
+                        HosoDang hosoDang = hoSoDangRepository.findHosoDangById(listId.get(j));
+                        if(hosoDang!=null) {
+                            tenhoso.add(hosoDang.getTaphoso()+" - "+hosoDang.getLoaihoso());
+                        }
+                    }
+                    dto.setTenhoso(tenhoso);
+                }
+                pheduyetDTOList.add(dto);
+            }
+            responMessage.setData(pheduyetDTOList);
             responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
             responMessage.setMessage(constant.MESSAGE.SUCCESS);
         } catch (Exception e) {
@@ -291,6 +329,44 @@ public class pheduyetService {
         }
         return responMessage;
     }
+
+    public ResponMessage getDataByPheduyetId(Long pheduyetId) {
+        ResponMessage responMessage = new ResponMessage();
+        try {
+            PheDuyet pheDuyet = pheDuyetRepository.findPheDuyetById(pheduyetId);
+            if(pheDuyet == null) {
+                responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+                responMessage.setMessage("Không tìm thấy thông tin phê duyệt");
+            } else {
+                // Phê duyệt thông tin đảng viên
+                if(pheDuyet.getLoaipheduyet().equals(constant.LOAIPHEDUYET.THONGTINDANGVIEN)) {
+                    DangVien dangVien = dangVienRepository.findDangVienById(pheDuyet.getDangvienId());
+                    responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+                    responMessage.setMessage(constant.MESSAGE.SUCCESS);
+                    responMessage.setData(dangVien);
+                } //Phê duyệt tin tức
+                else if(pheDuyet.getLoaipheduyet().equals(constant.LOAIPHEDUYET.TINTUC)) {
+                    TinTuc tinTuc = tinTucRepository.findTinTucById(pheDuyet.getTintucId());
+                    responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+                    responMessage.setMessage(constant.MESSAGE.SUCCESS);
+                    responMessage.setData(tinTuc);
+                } // Phê duyệt hồ sơ đảng
+                else if(pheDuyet.getLoaipheduyet().equals(constant.LOAIPHEDUYET.HOSODANG)) {
+                    List<Long> listId = pheDuyet.getListHosoId();
+                    responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+                    responMessage.setMessage(constant.MESSAGE.SUCCESS);
+                    responMessage.setData(hoSoDangRepository.findByIdIn(listId));
+                }
+            }
+
+        } catch (Exception e) {
+            responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+            responMessage.setMessage(e.getMessage());
+        }
+        return responMessage;
+    }
+
+
 
 
 }

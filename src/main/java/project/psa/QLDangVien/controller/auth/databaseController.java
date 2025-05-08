@@ -71,7 +71,7 @@ public class databaseController {
                         int columnCount = rsMeta.getColumnCount();
 
                         while (rs.next()) {
-                            StringBuilder insert = new StringBuilder("INSERT IGNORE INTO `" + tableName + "` VALUES (");
+                            StringBuilder insert = new StringBuilder("INSERT  INTO `" + tableName + "` VALUES (");
                             for (int i = 1; i <= columnCount; i++) {
                                 Object value = rs.getObject(i);
                                 if (value == null) {
@@ -87,7 +87,20 @@ public class databaseController {
                                 }
                                 if (i < columnCount) insert.append(", ");
                             }
-                            insert.append(");\n");
+                            insert.append(") ON DUPLICATE KEY UPDATE ");
+
+                            List<String> columnNames = new ArrayList<>();
+                            for (int i = 1; i <= columnCount; i++) {
+                                columnNames.add(rsMeta.getColumnName(i));
+                            }
+
+                            for (int i = 1; i <= columnCount; i++) {
+                                String colName = columnNames.get(i - 1);
+                                insert.append("`").append(colName).append("` = VALUES(`").append(colName).append("`)");
+                                if (i < columnCount) insert.append(", ");
+                            }
+
+                            insert.append(";\n");
                             writer.write(insert.toString());
                         }
 

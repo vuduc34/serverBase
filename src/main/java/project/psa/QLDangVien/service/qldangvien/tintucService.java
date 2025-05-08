@@ -25,7 +25,7 @@ public class tintucService {
             tinTuc.setNguoitao(getCurrentUsername());
             tinTuc.setTrangthai(constant.THONGTIN.SAVED);
             tinTuc.setThoigiantao(LocalDateTime.now());
-            tinTuc.setMota(model.getMota());
+            tinTuc.setNoidungtin(model.getNoidung());
             tinTuc.setTieude(model.getTieude());
             tinTuc.setUrl(model.getImageUrl());
             tinTuc = tinTucRepository.save(tinTuc);
@@ -55,7 +55,7 @@ public class tintucService {
                 tinTuc.setThoigiantao(LocalDateTime.now());
                 tinTuc.setThoigianpheduyet(null);
                 tinTuc.setNguoipheduyet(null);
-                tinTuc.setMota(model.getMota());
+                tinTuc.setNoidungtin(model.getNoidung());
                 tinTuc.setTieude(model.getTieude());
                 tinTuc.setUrl(model.getImageUrl());
                 tinTuc = tinTucRepository.save(tinTuc);
@@ -87,6 +87,19 @@ public class tintucService {
         ResponMessage responMessage = new ResponMessage();
         try {
             responMessage.setData(tinTucRepository.findAllTintuc());
+            responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+            responMessage.setMessage(constant.MESSAGE.SUCCESS);
+        } catch (Exception e) {
+            responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+            responMessage.setMessage(e.getMessage());
+        }
+        return responMessage;
+    }
+
+    public ResponMessage findById(Long id) {
+        ResponMessage responMessage = new ResponMessage();
+        try {
+            responMessage.setData(tinTucRepository.findTinTucById(id));
             responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
             responMessage.setMessage(constant.MESSAGE.SUCCESS);
         } catch (Exception e) {

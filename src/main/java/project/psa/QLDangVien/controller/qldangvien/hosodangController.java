@@ -7,6 +7,8 @@ import project.psa.QLDangVien.model.ResponMessage;
 import project.psa.QLDangVien.model.qldangvien.hosodangModel;
 import project.psa.QLDangVien.service.qldangvien.hosodangService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(constant.API.PREFIX+"/hoso")
 public class hosodangController {
@@ -34,6 +36,12 @@ public class hosodangController {
     @ResponseBody
     public ResponMessage findApprovedByDangvienId(@RequestParam Long dangvienId) {
         return hosodangService.findApprovedByDangvienId(dangvienId);
+    }
+
+    @GetMapping("/findByListHosodangId")
+    @ResponseBody
+    public ResponMessage findByListHosodangId(@RequestParam List<Long> listId) {
+        return hosodangService.findByListHosodangId(listId);
     }
 
 

@@ -10,6 +10,7 @@ import project.psa.QLDangVien.model.qldangvien.hosodangModel;
 import project.psa.QLDangVien.repository.qldangvien.DangVienRepository;
 import project.psa.QLDangVien.repository.qldangvien.HoSoDangRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class hosodangService {
@@ -95,6 +96,20 @@ public class hosodangService {
         ResponMessage responMessage = new ResponMessage();
         try {
             responMessage.setData(hoSoDangRepository.findHosoDangByDangvienId(dangvienId));
+            responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
+            responMessage.setMessage(constant.MESSAGE.SUCCESS);
+
+        } catch (Exception e) {
+            responMessage.setResultCode(constant.RESULT_CODE.ERROR);
+            responMessage.setMessage(e.getMessage());
+        }
+        return responMessage;
+    }
+
+    public ResponMessage findByListHosodangId(List<Long> listId) {
+        ResponMessage responMessage = new ResponMessage();
+        try {
+            responMessage.setData(hoSoDangRepository.findByIdIn(listId));
             responMessage.setResultCode(constant.RESULT_CODE.SUCCESS);
             responMessage.setMessage(constant.MESSAGE.SUCCESS);
 

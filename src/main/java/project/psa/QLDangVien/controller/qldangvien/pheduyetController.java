@@ -43,4 +43,10 @@ public class pheduyetController {
     public ResponMessage findByUsername(@RequestParam String username) {
         return pheduyetService.findPheduyetByUsername(username);
     }
+
+    @GetMapping("/getDataByPheduyetId")
+    @ResponseBody
+    public ResponMessage getDataByPheduyetId(@RequestParam Long pheduyetId) {
+        return pheduyetService.getDataByPheduyetId(pheduyetId);
+    }
 }

@@ -17,5 +17,11 @@ public interface HoSoDangRepository extends JpaRepository<HosoDang, Long> {
     @Query( value = "SELECT  * FROM hosodang where trangthai = 'approved' and dangvien_id = :dangvien_id order by taphoso asc, loaihoso asc,thoigianpheduyet desc ", nativeQuery = true)
     List<HosoDang> findHosoDangApprovedByDangvienId(@Param("dangvien_id") Long dangvien_id);
 
+    @Query("SELECT h FROM HosoDang h WHERE h.id IN :ids")
+    List<HosoDang> findByIdIn(@Param("ids") List<Long> ids);
+
+
+
+
 
 }

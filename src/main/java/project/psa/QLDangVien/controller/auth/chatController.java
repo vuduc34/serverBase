@@ -11,7 +11,7 @@ import project.psa.QLDangVien.model.ChatResponse;
 import project.psa.QLDangVien.service.auth.GeminiService;
 
 @RestController
-@RequestMapping(constant.API.PREFIX+"/chat")
+@RequestMapping(constant.API.PREFIX_AUTH+"/chat")
 public class chatController {
 
     @Autowired

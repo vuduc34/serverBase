@@ -13,4 +13,6 @@ public interface KyDangPhiRepository extends JpaRepository<KyDangPhi, Long> {
     KyDangPhi findKyDangPhiById(Long id);
     @Query( value = "SELECT  * FROM kydangphi order by id desc ", nativeQuery = true)
     List<KyDangPhi> findAllKydangphi();
+
+    boolean  existsByTen(String ten);
 }
