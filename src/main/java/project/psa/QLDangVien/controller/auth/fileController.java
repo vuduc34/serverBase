@@ -16,11 +16,11 @@ import java.io.IOException;
 import java.time.Instant;
 
 @RestController
-@RequestMapping(constant.API.PREFIX+"/file")
+@RequestMapping(constant.API.PREFIX)
 public class fileController {
     @Autowired
     private fileService fileService;
-    @PostMapping(value = "/uploadImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/file/uploadImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponMessage uploadImage(@RequestParam("file") MultipartFile file) {
         ResponMessage responMessage = new ResponMessage();
         try {
@@ -38,7 +38,7 @@ public class fileController {
     }
 
     // API lấy ảnh theo tên file
-    @GetMapping("/getImage/{filename}")
+    @GetMapping("/auth/file/getImage/{filename}")
     public ResponseEntity<byte[]> getImage(@PathVariable String filename) {
         try {
             byte[] image = fileService.getImage(filename);
@@ -50,7 +50,7 @@ public class fileController {
         }
     }
 
-    @PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/file/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponMessage uploadFile(@RequestParam("file") MultipartFile file) {
         ResponMessage responMessage = new ResponMessage();
         try {
@@ -68,7 +68,7 @@ public class fileController {
     }
 
     // API lấy ảnh theo tên file
-    @GetMapping("/getFile/{filename}")
+    @GetMapping("/file/getFile/{filename}")
     public ResponseEntity<byte[]> getFile(@PathVariable String filename) {
         try {
             byte[] file = fileService.getFile(filename);

@@ -7,6 +7,13 @@ public class constant {
         public static  final String GIAITHE = "giaithe";
         public static  final String TAMDUNG = "tamdung";
     }
+
+    public static final class LOAICHIBO {
+        public static  final String DANGUY = "danguy";
+        public static  final String DANGBO = "dangbo";
+        public static  final String CHIBO = "chibo";
+    }
+
     //danh sách trạng thái của đảng viên
     public static final class DANGVIEN {
         public static  final String DUBI = "dubi";

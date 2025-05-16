@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class tintucModel {
     private String tieude;
-    private String noidung;
-    private String imageUrl;
+    private String noidungtin;
+    private String url;
 }

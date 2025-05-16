@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class chiboModel {
+public class updateChiboModel {
     private String tenchibo;
     private String danguycaptren;
     private String diachi;
@@ -14,6 +14,5 @@ public class chiboModel {
     private String ngaythanhlap;
     private String ghichu;
     private String trangthai;
-    private String loai;
     private Long danguyCaptrenId;
 }

@@ -26,6 +26,8 @@ public class ChiBo {
     private String ngaythanhlap;
     private String ghichu;
     private String trangthai;
+    private String loai;
+    private Long danguyCaptrenId;
 
     @OneToMany(mappedBy = "chibo")
     private List<XepLoai> xeploais;
