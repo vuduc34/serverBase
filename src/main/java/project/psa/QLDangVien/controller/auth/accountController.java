@@ -36,7 +36,6 @@ public class accountController {
     }
     @GetMapping("/account/findAll")
     @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponMessage findAlll() {
         return accountService.findAll();
     }
